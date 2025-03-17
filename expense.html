@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap');
+    body {
+      background: linear-gradient(135deg, #eef1f5, #e6e8f0);
+      font-family: 'poppins';
+      padding: 20px;
+    }
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    .btn-primary {
+      background-color: #7380ec;
+      padding: 12px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #3f4b8f;
+      transform: translateY(-2px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th, table td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    table th {
+      background-color: #7380ec;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Expense Tracker</h2>
+
+  <div class="mb-3">
+    <label for="expense" class="form-label">Expense Amount</label>
+    <input type="number" class="form-control" id="expense" placeholder="Enter Expense Amount">
+  </div>
+
+  <div class="mb-3">
+    <label for="category" class="form-label">Category</label>
+    <select class="form-control" id="category">
+      <option value="">Select Category</option>
+      <option value="Food">Food</option>
+      <option value="Transportation">Transportation</option>
+      <option value="Entertainment">Entertainment</option>
+      <option value="Utilities">Utilities</option>
+      <option value="Others">Others</option>
+    </select>
+  </div>
+
+  <div class="mb-3" id="otherCategoryDiv" style="display: none;">
+    <label for="otherCategory" class="form-label">Enter Custom Category</label>
+    <input type="text" class="form-control" id="otherCategory" placeholder="Enter your category">
+  </div>
+
+  <button class="btn btn-primary" id="addExpenseBtn">Add Expense</button>
+
+  <div id="alertMessage" class="alert alert-danger mt-3 d-none" role="alert">
+    Please fill out all fields.
+  </div>
+
+  <h3 class="mt-5">Current Income: <span id="currentIncome">0</span></h3>
+  <h3>Remaining Balance: <span id="remainingBalance">0</span></h3>
+
+  <h3>Expenses Table:</h3>
+  <table id="expenseTable">
+    <thead>
+      <tr>
+        <th>Expense</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Expense rows will be added here -->
+    </tbody>
+  </table>
+
+  <!-- Income Input Section (Visible if income is not set) -->
+  <div id="setIncomeDiv" class="mt-5" style="display: none;">
+    <label for="incomeInput" class="form-label">Set Income</label>
+    <input type="number" class="form-control" id="incomeInput" placeholder="Enter your monthly income">
+    <button class="btn btn-primary mt-3" id="setIncomeBtn">Set Income</button>
+  </div>
+</div>
+
+<script>
+  // Load income and expenses from local storage
+  function loadIncomeAndExpenses() {
+    let income = parseFloat(localStorage.getItem('income')) || 0;
+    const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+
+    // Show income input section if income is not set
+    if (income === 0) {
+      document.getElementById('setIncomeDiv').style.display = 'block';
+      document.getElementById('currentIncome').textContent = '0';
+    } else {
+      document.getElementById('setIncomeDiv').style.display = 'none';
+      document.getElementById('currentIncome').textContent = income.toFixed(2);
+    }
+
+    // Calculate total expenses
+    const totalExpenses = expenses.reduce((sum, expense) => sum + parseFloat(expense.amount), 0);
+
+    // Calculate remaining balance (income - total expenses)
+    const remainingBalance = income - totalExpenses;
+    document.getElementById('remainingBalance').textContent = remainingBalance.toFixed(2);
+
+    // Populate the expenses table
+    const tableBody = document.getElementById('expenseTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear previous rows
+    expenses.forEach((expense, index) => {
+      const row = tableBody.insertRow();
+      row.insertCell(0).textContent = expense.amount;
+      row.insertCell(1).textContent = expense.category;
+
+      // Add Delete button
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'btn btn-danger btn-sm';
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = function() {
+        deleteExpense(index);
+      };
+      const actionCell = row.insertCell(2);
+      actionCell.appendChild(deleteButton);
+    });
+  }
+
+  // Save income and expenses to local storage
+  function saveIncomeAndExpenses(income, expenses) {
+    localStorage.setItem('income', income);
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }
+
+  // Set income to local storage
+  document.getElementById('setIncomeBtn').addEventListener('click', function() {
+    const incomeInput = document.getElementById('incomeInput').value;
+
+    // Validate income
+    if (incomeInput && !isNaN(incomeInput) && parseFloat(incomeInput) > 0) {
+      const income = parseFloat(incomeInput);
+      localStorage.setItem('income', income); // Save to localStorage
+      loadIncomeAndExpenses(); // Reload the page with updated income
+    } else {
+      alert('Please enter a valid income amount');
+    }
+  });
+
+  // Show or hide the custom category input based on selected category
+  document.getElementById('category').addEventListener('change', function() {
+    const category = this.value;
+    const otherCategoryDiv = document.getElementById('otherCategoryDiv');
+    
+    if (category === 'Others') {
+      otherCategoryDiv.style.display = 'block'; // Show the custom category input
+    } else {
+      otherCategoryDiv.style.display = 'none'; // Hide custom category input
+    }
+  });
+
+  // Event listener for Add Expense button
+  document.getElementById('addExpenseBtn').addEventListener('click', function() {
+    const expenseInput = document.getElementById('expense').value;
+    let category = document.getElementById('category').value;
+
+    // If "Others" is selected, get the custom category value
+    if (category === 'Others') {
+      category = document.getElementById('otherCategory').value;
+    }
+
+    // Validate fields
+    if (expenseInput && category) {
+      const expenseAmount = parseFloat(expenseInput);
+      if (isNaN(expenseAmount) || expenseAmount <= 0) {
+        alert('Please enter a valid expense amount');
+        return;
+      }
+
+      // Get expenses from localStorage
+      const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+      expenses.push({ amount: expenseAmount, category: category });
+
+      // Save updated expenses and income to localStorage
+      const income = parseFloat(localStorage.getItem('income')) || 0;
+      saveIncomeAndExpenses(income, expenses);
+
+      // Reload income, expenses, and remaining balance
+      loadIncomeAndExpenses();
+
+      // Clear input fields
+      document.getElementById('expense').value = '';
+      document.getElementById('category').value = '';
+      document.getElementById('otherCategory').value = ''; 
+      document.getElementById('otherCategoryDiv').style.display = 'none';
+
+      alert('Expense added successfully!');
+    } else {
+      document.getElementById('alertMessage').classList.remove('d-none');
+    }
+  });
+
+  // Delete an expense from local storage
+  function deleteExpense(index) {
+    const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    expenses.splice(index, 1); // Remove the expense at the given index
+
+    // Save updated expenses back to localStorage
+    const income = parseFloat(localStorage.getItem('income')) || 0;
+    saveIncomeAndExpenses(income, expenses);
+
+    // Reload income, expenses, and remaining balance
+    loadIncomeAndExpenses();
+  }
+
+  // Initialize the page
+  loadIncomeAndExpenses();
+</script>
+
+</body>
+</html>

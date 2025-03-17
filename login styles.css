@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+  font-family:'poppins';
+  background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  background-color: #ffffff;
+  padding: 40px 35px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px; /* Adjusted width */
+  transition: all 0.3s ease-in-out;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+h2 {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #444;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 08px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 1.1em;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #0066cc;
+  background-color: #e6f3ff;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+  outline: none;
+}
+
+button.login-btn {
+  width: 100%;
+  padding: 14px 14px;
+  background-color: #7380ec;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+button.login-btn:hover {
+  background-color:#ff7782;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button.login-btn:active {
+  background-color: #7380ec;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 12px;
+  display: none;
+}
+
+.error-message.active {
+  display: block;
+}
+
+.login-container .input-group input,
+.login-container button {
+  transition: all 0.3s ease-in-out;
+}
+.fman-text {
+  font-size: 4rem;
+  font-weight: bold;
+  
+  color: #ff7782;
+  padding-left: 155px;
+  transition: transform 0.3s ease-in-out;
+}
+.fman-f {
+  color: black;  /* Color only the 'F' in black */
+}
+.fman-text:hover {
+  transform: scale(1.1); /* Enlarge the FMAN text on hover */
+}

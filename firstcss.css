@@ -1,0 +1,155 @@
+/* General Body Styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body {
+    font-family: 'poppins';
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Container for the main content */
+.container {
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center;     /* Centers content vertically */
+     padding: 40px 20px;
+   
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    gap: 40px;
+     flex-wrap: wrap; /* Ensures content wraps for smaller screens */
+} 
+
+/* Style for FMAN text */
+.fman-text {
+    font-size: 10rem;
+    font-weight: bold;
+    color: #ff7782;
+    padding-left: 0;
+    transition: transform 0.3s ease-in-out;
+}
+.fman-f {
+    color: black;  /* Color only the 'F' in black */
+}
+.fman-text:hover {
+    transform: scale(1.1); /* Enlarge the FMAN text on hover */
+}
+
+/* Style for the image container */
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: #333;
+    transition: transform 0.3s ease-in-out;
+    width: 650px;
+}
+
+.image-container img:hover {
+    transform: scale(1.05); /* Slightly enlarge the image on hover */
+}
+
+/* Explanation Container Styling */
+.explanation-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.explanation-container:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+}
+
+/* Primary heading style */
+.primary {
+    font-size: 1.8rem;
+    color: #2d2d2d;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #7380ec;
+    transition: color 0.3s ease-in-out;
+}
+
+h3:hover {
+    color: #5a6ce3; /* Darken the color on hover */
+}
+
+/* Grid layout for the last section */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 40px;
+    padding: 40px;
+}
+
+/* Individual grid item */
+.grid-item {
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 10px 10px rgba(108, 105, 105, 0.1);
+    border-radius: 15px;
+    width: fit-content;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grid-item:hover {
+    transform: translateY(-10px); /* Lift up the grid item on hover */
+    box-shadow: 0 15px 20px rgba(108, 105, 105, 0.2); /* Add a stronger shadow on hover */
+}
+
+/* Responsive Design for Mobile */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+    }
+
+    .fman-text {
+        font-size: 6rem; /* Reduce font size on smaller screens */
+        text-align: center; /* Center the FMAN text on smaller screens */
+    }
+
+    .image-container img {
+        width: 100%; /* Make the image responsive */
+        max-width: 500px; /* Max width for smaller screens */
+    }
+}
+
+/* Styling for the Login Button */
+.login-container {
+    position: fixed; /* Make the container fixed at the bottom */
+    bottom: 20px;    /* 20px from the bottom of the page */
+    left: 50%;       /* Align the container to the center horizontally */
+    transform: translateX(-50%); /* Offset the left position by half its width */
+    text-align: center;  /* Center the content inside the container */
+    width: 100%;
+    padding: 20px;
+}
+
+.login-btn {
+    background-color: #7380ec;  /* Button color */
+    color: white;               /* Text color */
+    font-size: 1.2rem;          /* Font size */
+    padding: 15px 30px;         /* Padding around the button */
+    border: none;               /* Remove default border */
+    border-radius: 30px;        /* Rounded corners */
+    cursor: pointer;           /* Pointer cursor on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.login-btn:hover {
+    background-color: #5a6ce3; /* Darken the color on hover */
+    transform: translateY(-5px); /* Slightly lift the button */
+}
